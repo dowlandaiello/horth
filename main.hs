@@ -1,6 +1,7 @@
 import Data.Char (isSpace)
 import Data.Maybe
 import Data.Either
+import Text.Read
 
 -- Code being interpreted immediately, not in a file --
 defaultfile = "repl"
@@ -13,11 +14,25 @@ data CompilationError = CompilationError CompilationCtx String deriving (Show)
 
 -- Compile a list of tokens into assembly
 com :: [(String, CompilationCtx)] -> Either [CompilationError] String
-com [("", _)] = Right ""
-com ((x, ctx):xs)
-        | isJust $ readMaybe x = Right ("push $" ++ x):com xs
-        | otherwise = Left $ CompilationError ctx "invalid symbol `" ++ x ++ "`"
+com (x:xs) = case asm x of
+        Left e -> Left e:(fromLeft [] prog)
+        Right asm' -> case prog of
+                Left e -> Left e
+                Right asm'' -> Right asm':asm''
         where prog = com xs
+
+
+asm :: (String, CompilationCtx) -> Either CompilationError String
+asm ("", _) = Right "mov $0x3c, %rax\n\
+                    \mov $0, %rdi\n\
+                    \syscall"
+asm ("+", _) = Right "pop %rax\n\
+                     \pop %rbx\n\
+                     \add %rbx, %rax\n\
+                     \push %rax\n"
+asm (tok, ctx) = "push $" ++ d ++ "\n"
+        where Just d = readMaybe tok
+asm (tok, ctx) = Left $ CompilationError ctx "invalid symbol `" ++ tok ++ "`"
 
 -- Tokenize immediate values
 tokenizeimm :: String -> [(String, CompilationCtx)]

@@ -15,7 +15,11 @@ main = do
           Left e -> loge e
           Right src' -> case ctx of
                           CompilationCtx "stdin" _ _ -> putStrLn src'
-                          CompilationCtx f _ _ -> writeFile f src'
+                          CompilationCtx f _ _ -> writeFile (outfile f) src'
+
+outfile :: String -> String
+outfile ('.':_) = ".s"
+outfile (x:xs) = x:outfile xs
 
 getsrc :: [String] -> (IO String, CompilationCtx)
 getsrc [] = getsrc [""]

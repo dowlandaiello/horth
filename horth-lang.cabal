@@ -1,10 +1,14 @@
 cabal-version: 1.12
 
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
 name:           horth-lang
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/horth#readme>
-homepage:       https://github.com/githubuser/horth#readme
-bug-reports:    https://github.com/githubuser/horth/issues
+description:    Please see the README on GitHub at <https://github.com/dowlandaiello/horth#readme>
+homepage:       https://github.com/dowlandaiello/horth#readme
+bug-reports:    https://github.com/dowlandaiello/horth/issues
 author:         Dowland Aiello
 maintainer:     daiello@uw.edu
 copyright:      2022 Dowland Aiello
@@ -13,7 +17,6 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    ChangeLog.md
 
 source-repository head
   type: git
@@ -23,7 +26,7 @@ library
   exposed-modules:
       Lib
   other-modules:
-      Paths_horth
+      Paths_horth_lang
   hs-source-dirs:
       src
   build-depends:
@@ -33,7 +36,7 @@ library
 executable horth
   main-is: Main.hs
   other-modules:
-      Paths_horth
+      Paths_horth_lang
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N

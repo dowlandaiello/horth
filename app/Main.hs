@@ -1,17 +1,8 @@
-module App where
+module Main where
 
 import System.Environment
 import Text.Printf
 import Lib
-
--- Code being interpreted immediately, not in a file --
-defaultfile = "stdin"
-
--- File name, row, column --
-data CompilationCtx = CompilationCtx String Int Int deriving (Show)
-
--- Reason compilation failed, location of error --
-data CompilationError = CompilationError CompilationCtx String deriving (Show)
 
 -- Horth supports two compilation modes:
 -- 1. Compilation via piping

@@ -4,12 +4,24 @@ module Lib
     asm,
     tokenize,
     tokenizeimm,
+    CompilationCtx(CompilationCtx),
+    CompilationError(CompilationError),
+    defaultfile
     ) where
 
 import Data.Either
 import Data.Maybe
 import Data.Char (isSpace)
 import Text.Read
+
+-- Code being interpreted immediately, not in a file --
+defaultfile = "stdin"
+
+-- File name, row, column --
+data CompilationCtx = CompilationCtx String Int Int deriving (Show)
+
+-- Reason compilation failed, location of error --
+data CompilationError = CompilationError CompilationCtx String deriving (Show)
 
 -- Compile a list of tokens into assembly
 com :: [(String, CompilationCtx)] -> Either [CompilationError] String

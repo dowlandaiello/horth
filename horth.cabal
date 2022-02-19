@@ -1,0 +1,43 @@
+cabal-version: 1.12
+
+name:           horth-lang
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/horth#readme>
+homepage:       https://github.com/githubuser/horth#readme
+bug-reports:    https://github.com/githubuser/horth/issues
+author:         Dowland Aiello
+maintainer:     daiello@uw.edu
+copyright:      2022 Dowland Aiello
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/dowlandaiello/horth
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_horth
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable horth
+  main-is: Main.hs
+  other-modules:
+      Paths_horth
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , horth-lang
+  default-language: Haskell2010

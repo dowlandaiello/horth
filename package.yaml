@@ -1,0 +1,29 @@
+name:                horth-lang
+version:             0.1.0.0
+github:              "dowlandaiello/horth"
+license:             MIT
+author:              "Dowland Aiello"
+maintainer:          "daiello@uw.edu"
+copyright:           "2022 Dowland Aiello"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/dowlandaiello/horth#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  horth:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - horth-lang

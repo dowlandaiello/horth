@@ -35,15 +35,15 @@ com (x:xs) = case asm x of
 
 
 asm :: (String, CompilationCtx) -> Either [CompilationError] String
-asm ("", _) = Right "mov $0x3c, %rax\n\
-                    \mov $0, %rdi\n\
-                    \syscall"
-asm ("+", _) = Right "pop %rax\n\
-                     \pop %rbx\n\
-                     \add %rbx, %rax\n\
-                     \push %rax\n"
+asm ("", _) = Right "\tmov $0x3c, %rax\n\
+                    \\tmov $0, %rdi\n\
+                    \\tsyscall"
+asm ("+", _) = Right "\tpop %rax\n\
+                     \\tpop %rbx\n\
+                     \\tadd %rbx, %rax\n\
+                     \\tpush %rax\n"
 asm (tok, ctx)
-        | isJust (readMaybe tok :: Maybe Integer) = Right $ "push $" ++ tok ++ "\n"
+        | isJust (readMaybe tok :: Maybe Integer) = Right $ "\tpush $" ++ tok ++ "\n"
         | otherwise = Left $ [CompilationError ctx ("invalid symbol `" ++ tok ++ "`")]
 
 -- Tokenize immediate values

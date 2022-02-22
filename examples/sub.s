@@ -1,17 +1,12 @@
 	.text
 .globl	_start
 _start:
-	push $48
+	push $57
 	push $1
 	pop %rax
 	pop %rbx
-	add %rbx, %rax
-	push %rax
-	push $2
-	pop %rax
-	pop %rbx
-	add %rbx, %rax
-	push %rax
+	sub %rax, %rbx
+	push %rbx
 	pop %rax
 	sub $3, %rsp
 	movb $0, 2(%rsp)

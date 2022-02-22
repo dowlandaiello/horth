@@ -1,13 +1,13 @@
 	.text
 .globl	_start
 _start:
-	push $48
-	push $1
+	push $4
+	push $2
 	pop %rax
 	pop %rbx
-	add %rbx, %rax
+	imul %rbx, %rax
 	push %rax
-	push $2
+	push $48
 	pop %rax
 	pop %rbx
 	add %rbx, %rax

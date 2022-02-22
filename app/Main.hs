@@ -1,5 +1,6 @@
 module Main where
 
+
 import System.Environment
 import System.Process
 import System.Exit
@@ -20,18 +21,17 @@ main = do
                   exitWith (ExitFailure 1)
           Right src' -> do
                   let src'' = "\t.text\n\
-                               \.globl _start\n\
+                               \.globl\t_start\n\
                                \_start:\n" ++ src' ++ "\n"
                   writeFile (extfile f ".s") src''
-                  readProcess "as" [extfile f ".s", "-o", extfile f ".o"] []
+                  readProcess "as" ["-g", extfile f ".s", "-o", extfile f ".o"] []
                   readProcess "ld" [extfile f ".o", "-o", extfile f ""] []
                   clean <- case f of
                             "stdin" -> do
-                                    exe <- readFile f
-                                    putStrLn exe
+                                    putStrLn <$> readFile f
                                     return [extfile f ".s", extfile f ".o", extfile f ""]
                             _ ->
-                                    pure [extfile f ".s", extfile f ".o"]
+                                    pure [extfile f ".o"]
                   readProcess "rm" clean []
 
 extfile :: String -> String -> String

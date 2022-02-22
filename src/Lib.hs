@@ -17,6 +17,10 @@ import Text.Read
 -- Code being interpreted immediately, not in a file --
 defaultfile = "stdin"
 
+-- The file descriptor for stdout
+stdoutFd = "1"
+writeSyscallNum = "1"
+
 -- File name, row, column --
 data CompilationCtx = CompilationCtx String Int Int deriving (Show)
 
@@ -42,6 +46,24 @@ asm ("+", _) = Right "\tpop %rax\n\
                      \\tpop %rbx\n\
                      \\tadd %rbx, %rax\n\
                      \\tpush %rax\n"
+asm ("-", _) = Right "\tpop %rax\n\
+                     \\tpop %rbx\n\
+                     \\tsub %rax, %rbx\n\
+                     \\tpush %rbx\n"
+asm ("*", _) = Right "\tpop %rax\n\
+                     \\tpop %rbx\n\
+                     \\timul %rbx, %rax\n\
+                     \\tpush %rax\n"
+asm (".", _) = Right $ "\tpop %rax\n\
+                       \\tsub $3, %rsp\n\
+                       \\tmovb $0, 2(%rsp)\n\
+                       \\tmovb $10, 1(%rsp)\n\
+                       \\tmovb %al, (%rsp)\n\
+                       \\tmov $" ++ writeSyscallNum ++ ", %rax\n\
+                       \\tmov $" ++ stdoutFd ++ ", %rdi\n\
+                       \\tlea (%rsp), %rsi\n\
+                       \\tmov $2, %rdx\n\
+                       \\tsyscall\n"
 asm (tok, ctx)
         | isJust (readMaybe tok :: Maybe Integer) = Right $ "\tpush $" ++ tok ++ "\n"
         | otherwise = Left $ [CompilationError ctx ("invalid symbol `" ++ tok ++ "`")]

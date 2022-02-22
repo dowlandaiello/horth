@@ -58,7 +58,12 @@ asm ("/", _) = Right "\tpop %rcx\n\
                      \\tpop %rax\n\
                      \\tcqto\n\
                      \\tidivq %rcx\n\
-                     \\tpush %rcx\n"
+                     \\tpush %rax\n"
+asm ("%", _) = Right "\tpop %rcx\n\
+                     \\tpop %rax\n\
+                     \\tcqto\n\
+                     \\tidivq %rcx\n\
+                     \\tpush %rdx\n"
 asm (".", _) = Right $ "\tpop %rax\n\
                        \\tsub $3, %rsp\n\
                        \\tmovb $0, 2(%rsp)\n\
